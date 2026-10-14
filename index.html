@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123c35">
+<title>Audiolibro | Historia de Girardot</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  background:#f5f4ed;
+  color:#24332f;
+  line-height:1.8;
+}
+button,select{font:inherit}
+.portada{
+  text-align:center;
+  color:white;
+  padding:65px 20px 85px;
+  background:linear-gradient(135deg,#123c35,#24745f,#b28b50);
+}
+.portada .icono{font-size:55px}
+.portada h1{
+  font-size:clamp(32px,6vw,55px);
+  margin:10px 0;
+  line-height:1.15;
+}
+.portada p{font:17px Arial,sans-serif}
+main{width:min(950px,92%);margin:auto}
+.reproductor{
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 8px 30px #00000012;
+  margin:-35px auto 35px;
+  position:relative;
+}
+.reproductor h2{
+  color:#185443;
+  margin-top:0;
+}
+audio{width:100%;margin:10px 0}
+.botones{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:12px;
+}
+button{
+  border:0;
+  border-radius:25px;
+  padding:11px 17px;
+  background:#24745f;
+  color:white;
+  cursor:pointer;
+  font: bold 14px Arial,sans-serif;
+}
+button:hover{background:#123c35}
+.secundario{background:#e0eee6;color:#123c35}
+.secundario:hover{background:#c8e0d2;color:#123c35}
+.velocidad{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:15px;
+  font:14px Arial,sans-serif;
+}
+select{
+  padding:7px;
+  border:1px solid #ccd9d0;
+  border-radius:8px;
+}
+.introduccion{text-align:center;margin:35px auto}
+.introduccion h2{color:#185443}
+.indice{
+  background:#e0eee6;
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:25px;
+}
+.indice h2{margin-top:0;font-size:20px}
+.indice a{
+  display:inline-block;
+  background:white;
+  color:#185443;
+  padding:7px 12px;
+  border-radius:20px;
+  margin:4px;
+  text-decoration:none;
+  font:13px Arial,sans-serif;
+}
+.indice a:hover{background:#c8e0d2}
+.capitulo{
+  background:white;
+  border-left:5px solid #24745f;
+  border-radius:15px;
+  padding:25px;
+  margin:25px 0;
+  box-shadow:0 5px 20px #00000008;
+  scroll-margin-top:15px;
+}
+.capitulo h2{color:#185443;line-height:1.3}
+.numero{
+  font:bold 12px Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:#24745f;
+}
+.cierre{
+  background:#e0eee6;
+  padding:25px;
+  border-radius:15px;
+  margin:25px 0;
+}
+footer{
+  text-align:center;
+  padding:30px 15px;
+  margin-top:40px;
+  background:#123c35;
+  color:white;
+  font:14px/1.7 Arial,sans-serif;
+}
+@media(max-width:600px){
+  .portada{padding:45px 15px 65px}
+  .reproductor{padding:18px}
+  .capitulo{padding:20px}
+  .velocidad{flex-wrap:wrap}
+}
+</style>
+</head>
+
+<body>
+
+<header class="portada" id="inicio">
+  <div class="icono">🎧📖</div>
+  <p>AUDIOLIBRO EDUCATIVO</p>
+  <h1>Girardot, Cundinamarca</h1>
+  <h2>Historia junto al río Magdalena</h2>
+  <p>Un viaje sonoro por la memoria de nuestra ciudad</p>
+</header>
+
+<main>
+
+<section class="reproductor" id="reproductor">
+  <h2>🎧 Escucha tu audiolibro</h2>
+  <p id="estado" aria-live="polite">
+    Selecciona una parte para comenzar la aventura.
+  </p>
+
+  <audio id="audio" controls preload="metadata">
+    <source src="1.mp3" type="audio/mpeg">
+    Tu navegador no admite la reproducción de audio.
+  </audio>
+
+  <div class="botones">
+    <button onclick="cambiarParte(1)">▶ Parte 1</button>
+    <button onclick="cambiarParte(2)">▶ Parte 2</button>
+    <button class="secundario" onclick="saltar(-15)">↶ 15 segundos</button>
+    <button class="secundario" onclick="saltar(15)">15 segundos ↷</button>
+  </div>
+
+  <div class="velocidad">
+    <label for="velocidad">Velocidad de narración:</label>
+    <select id="velocidad" onchange="cambiarVelocidad()">
+      <option value="0.75">0,75×</option>
+      <option value="1" selected>Normal</option>
+      <option value="1.25">1,25×</option>
+      <option value="1.5">1,5×</option>
+      <option value="2">2×</option>
+    </select>
+  </div>
+</section>
+
+<section class="introduccion" id="introduccion">
+  <h2>Bienvenidos a este viaje por la historia</h2>
+  <p>
+    Imaginemos una mañana cálida a orillas del río Magdalena.
+    El agua avanza lentamente, las canoas y los barcos se convierten
+    en recuerdos de otros tiempos, y la ciudad despierta entre el
+    movimiento del comercio y la vida cotidiana.
+  </p>
+  <p>
+    Estamos en Girardot, municipio de Cundinamarca cuya historia
+    está profundamente ligada al río, a los caminos que conectaron
+    el interior del país y al esfuerzo de sus habitantes.
+  </p>
+</section>
+
+<nav class="indice">
+  <h2>📚 Contenido del audiolibro</h2>
+  <a href="#capitulo1">Capítulo 1</a>
+  <a href="#capitulo2">Capítulo 2</a>
+  <a href="#capitulo3">Capítulo 3</a>
+  <a href="#capitulo4">Capítulo 4</a>
+  <a href="#capitulo5">Capítulo 5</a>
+  <a href="#capitulo6">Capítulo 6</a>
+  <a href="#final">Reflexión final</a>
+</nav>
+
+<article class="capitulo" id="capitulo1">
+  <div class="numero">Capítulo uno</div>
+  <h2>Antes de la ciudad</h2>
+
+  <p>
+    Mucho antes de que existiera Girardot con ese nombre, la región
+    estaba habitada por pueblos indígenas, entre ellos los panches.
+    El territorio del valle del Magdalena ofrecía recursos naturales,
+    rutas de comunicación y condiciones para el intercambio.
+    La historia de la región no comenzó con la fundación oficial
+    del municipio: tiene raíces mucho más antiguas, vinculadas a
+    las comunidades que vivieron y se desplazaron por estos paisajes.
+  </p>
+
+  <p>
+    Con el paso del tiempo, la cercanía del río y los caminos que
+    comunicaban distintas zonas del país hicieron de este lugar un
+    punto estratégico. Uno de los pasos más importantes fue conocido
+    como Paso de Flandes. Cerca de allí surgió un pequeño asentamiento
+    llamado La Chivatera, vinculado en sus primeros años a la
+    jurisdicción de Tocaima.
+  </p>
+
+  <button onclick="escuchar(1)">🎧 Escuchar parte 1</button>
+</article>
+
+<article class="capitulo" id="capitulo2">
+  <div class="numero">Capítulo dos</div>
+  <h2>Nace Girardot</h2>
+
+  <p>
+    Las reseñas municipales señalan el 9 de octubre de 1852 como la
+    fecha de fundación formal de Girardot. Mediante la Ordenanza
+    número 20 de la Provincia del Tequendama, el asentamiento fue
+    constituido como distrito parroquial y recibió el nombre de
+    Girardot, en homenaje al prócer de la Independencia Atanasio Girardot.
+  </p>
+
+  <p>
+    La formación del poblado estuvo asociada a la cesión de terrenos
+    para establecer la población. A partir de ese núcleo, las casas,
+    los caminos, los espacios de encuentro y las actividades comerciales
+    fueron dando forma a una comunidad que crecería con el tiempo.
+    La fundación fue un comienzo administrativo; la ciudad, en cambio,
+    se construyó día a día con el trabajo de sus habitantes.
+  </p>
+
+  <button onclick="escuchar(1)">🎧 Escuchar parte 1</button>
+</article>
+
+<article class="capitulo" id="capitulo3">
+  <div class="numero">Capítulo tres</div>
+  <h2>El río, puerta de entrada y salida</h2>
+
+  <p>
+    Durante décadas, el río Magdalena fue una de las grandes vías
+    de comunicación de Colombia. Antes de que las carreteras modernas
+    dominaran los desplazamientos, viajeros y mercancías utilizaban
+    el río para conectar poblaciones y transportar productos.
+    Girardot se benefició de su ubicación y se convirtió en un punto
+    de paso, intercambio y abastecimiento.
+  </p>
+
+  <p>
+    Alrededor de ese movimiento surgieron comercios, hospedajes,
+    bodegas y servicios para quienes llegaban o continuaban su viaje.
+    El puerto fluvial no solo movía mercancías: también traía noticias,
+    costumbres, acentos y oportunidades. Así, Girardot fue construyendo
+    una identidad abierta al encuentro entre personas de distintas regiones.
+  </p>
+
+  <button onclick="escuchar(2)">🎧 Escuchar parte 2</button>
+</article>
+
+<article class="capitulo" id="capitulo4">
+  <div class="numero">Capítulo cuatro</div>
+  <h2>Puentes, caminos y modernización</h2>
+
+  <p>
+    La conexión con Flandes, al otro lado del Magdalena, fue fundamental
+    para la vida regional. Los puentes y las nuevas vías cambiaron la
+    manera de cruzar el río y de viajar hacia el interior del país.
+    Los registros históricos municipales mencionan un antiguo puente
+    que recibió distintos nombres a lo largo de su historia, entre ellos
+    Puente Real, Puente Córdoba y Puente de Flandes. La construcción de
+    nuevas conexiones viales transformó los recorridos y acompañó el
+    crecimiento de la ciudad.
+  </p>
+
+  <p>
+    La llegada y expansión de los transportes terrestres fue modificando
+    el papel del río, pero no borró su importancia. El Magdalena siguió
+    siendo un símbolo de la memoria local y una parte esencial del
+    paisaje de Girardot.
+  </p>
+
+  <button onclick="escuchar(2)">🎧 Escuchar parte 2</button>
+</article>
+
+<article class="capitulo" id="capitulo5">
+  <div class="numero">Capítulo cinco</div>
+  <h2>Educación, comercio y vida ciudadana</h2>
+
+  <p>
+    A medida que la población crecía, también se fortalecían sus
+    instituciones, sus escuelas, sus espacios públicos y sus organizaciones
+    sociales. La educación abrió oportunidades para nuevas generaciones,
+    mientras el comercio y los servicios continuaron sosteniendo buena
+    parte de la actividad económica.
+  </p>
+
+  <p>
+    La plaza de mercado, las calles del centro, los barrios y los lugares
+    de reunión se convirtieron en escenarios de la vida cotidiana.
+    En ellos se cruzaban las historias de comerciantes, trabajadores,
+    docentes, estudiantes, familias y visitantes. La identidad de Girardot
+    no se explica únicamente por sus fechas históricas, sino también por
+    las experiencias compartidas de quienes la han habitado.
+  </p>
+
+  <button onclick="escuchar(2)">🎧 Escuchar parte 2</button>
+</article>
+
+<article class="capitulo" id="capitulo6">
+  <div class="numero">Capítulo seis</div>
+  <h2>Girardot hoy: memoria y futuro</h2>
+
+  <p>
+    Con su clima cálido y su ubicación junto al Magdalena, Girardot ha
+    consolidado una reconocida vocación turística y comercial. Visitantes
+    llegan para descansar, disfrutar del río, recorrer la ciudad y conocer
+    su entorno. Al mismo tiempo, la ciudad enfrenta el desafío de proteger
+    su patrimonio, cuidar sus recursos naturales y conservar la memoria
+    de las comunidades que le dieron origen.
+  </p>
+
+  <p>
+    Conocer la historia de Girardot permite comprender que el desarrollo
+    no ocurre de un día para otro. Es el resultado de generaciones que
+    construyen caminos, levantan instituciones, crean negocios, educan
+    a sus hijos y mantienen vivas sus tradiciones. El río ha cambiado de
+    papel con el paso del tiempo, pero continúa recordándonos que la
+    historia de esta ciudad siempre ha estado conectada con el movimiento,
+    el encuentro y la transformación.
+  </p>
+
+  <button onclick="escuchar(2)">🎧 Escuchar parte 2</button>
+</article>
+
+<section class="cierre" id="final">
+  <h2>📖 Reflexión final: una historia que sigue fluyendo</h2>
+
+  <p>
+    Esta ha sido una breve travesía por la historia de Girardot,
+    Cundinamarca: desde los pueblos indígenas que habitaron la región,
+    pasando por su fundación formal en 1852, hasta su desarrollo como
+    centro de comercio, transporte y turismo.
+  </p>
+
+  <p>
+    Cada calle guarda una huella; cada generación añade una página.
+    Y mientras el Magdalena siga fluyendo junto a la ciudad, Girardot
+    seguirá contando su historia.
+  </p>
+
+  <button onclick="escuchar(2)">🎧 Escuchar parte 2</button>
+  <button class="secundario" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    ↑ Volver al inicio
+  </button>
+</section>
+
+<section class="capitulo">
+  <h2>💡 ¿Cómo escuchar?</h2>
+  <p>
+    1. Guarda este archivo como <strong>audiolibro.html</strong>.<br>
+    2. Coloca los archivos <strong>1.mp3</strong> y <strong>2.mp3</strong>
+    en la misma carpeta.<br>
+    3. Abre el HTML en Chrome y pulsa Parte 1 o Parte 2.<br>
+    4. Usa los controles para pausar, cambiar el volumen y ajustar la velocidad.
+  </p>
+  <p>
+    Los botones de cada capítulo seleccionan el archivo de audio indicado.
+    Para que un capítulo comience exactamente en su narración, es necesario
+    conocer el minuto y segundo de inicio dentro del MP3.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>Audiolibro: Historia de Girardot</strong></p>
+  <p>Un recurso educativo para aprender y valorar nuestra historia local.</p>
+  <p>Girardot, Cundinamarca · Colombia</p>
+</footer>
+
+<script>
+const audio = document.getElementById("audio");
+const estado = document.getElementById("estado");
+const velocidad = document.getElementById("velocidad");
+let parteActual = 1;
+
+function cambiarParte(parte) {
+  const archivo = parte === 2 ? "2.mp3" : "1.mp3";
+  const fuente = audio.querySelector("source");
+  const rutaNueva = new URL(archivo, document.baseURI).href;
+
+  parteActual = parte;
+
+  if (fuente.src !== rutaNueva) {
+    fuente.src = archivo;
+    audio.load();
+  }
+
+  audio.playbackRate = Number(velocidad.value);
+  estado.textContent = "Seleccionada la parte " + parte + ": " + archivo;
+
+  const promesa = audio.play();
+  if (promesa) {
+    promesa.catch(() => {
+      estado.textContent =
+        "No se pudo reproducir " + archivo +
+        ". Verifica que el archivo esté junto al HTML.";
+    });
+  }
+}
+
+function escuchar(parte) {
+  cambiarParte(parte);
+  document.getElementById("reproductor").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
+
+function saltar(segundos) {
+  if (!Number.isFinite(audio.duration)) return;
+  audio.currentTime = Math.max(
+    0,
+    Math.min(audio.duration, audio.currentTime + segundos)
+  );
+}
+
+function cambiarVelocidad() {
+  audio.playbackRate = Number(velocidad.value);
+}
+
+audio.addEventListener("ended", () => {
+  estado.textContent = "La parte " + parteActual + " ha terminado.";
+});
+
+audio.addEventListener("error", () => {
+  estado.textContent =
+    "No se encuentra el audio. Comprueba los nombres 1.mp3 y 2.mp3.";
+});
+</script>
+
+</body>
+</html>
